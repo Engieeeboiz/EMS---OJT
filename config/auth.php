@@ -112,4 +112,12 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    // Local Admin Credentials
+    
+    'admin' => [
+        'ems_username' => 'administrator',
+        'ems_password' => env('ADMIN_PASSWORD', '2025admin'),
+    ],
+
+
 ];
