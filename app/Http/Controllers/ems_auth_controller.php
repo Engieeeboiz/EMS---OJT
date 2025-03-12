@@ -31,9 +31,7 @@ class ems_auth_controller extends Controller
             return redirect(route('ems_homepage'));
 
         } else {
-
-            return redirect(route('signin'))->with('error', 'Invalid Credentials');
-
+            return redirect(route('welcome'))->with('error', 'Invalid Credentials');
         }
         // $request->validate([
         //     'auth_username' => 'required|string',

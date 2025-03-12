@@ -8,6 +8,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
 // Navigation Routes
 Route::get('/Home', 
     [ems_AJAX_controller::class, 'homepage_request']

@@ -42,15 +42,21 @@
                             <label for="" class="text-lg font-semibold"> Username </label>
                             <input type="text"
                             name="auth_username" id="auth_username"
-                            class="h-10 w-3/4 border-2 border-[#33372C] rounded-xl w-full"
-                            placeholder="Enter your username (Admin)">
+                            class="h-10 w-3/4 border-2 border-[#33372C] rounded-xl w-full @error('auth_username') border-2 border-red-500 @enderror"
+                            placeholder="{{ $errors->has('auth_username') ? $errors->first('auth_username') : 'Enter your username (Admin)' }} ">
+                            @if(session('error'))
+                                <p class="text-[#ff0000] text-sm ms-2">{{ session('error') }}</p>
+                            @endif
                         </div>
                         <div>
                             <label for="" class="text-lg font-semibold"> Password </label>
                             <input type="password"
                             name="auth_password" id="auth_password"
-                            class="h-10 w-3/4 border-2 border-[#33372C] rounded-xl w-full"
-                            placeholder="Enter your password (Admin)">
+                            class="h-10 w-3/4 border-2 border-[#33372C] rounded-xl w-full @error('auth_password') border-2 border-red-400 @enderror"
+                            placeholder=" {{ $errors->has('auth_password') ? $errors->first('auth_password') : 'Enter your password (Admin)' }}">
+                            @if(session('error'))
+                                <p class="text-[#ff0000] text-sm ms-2"> {{ session('error') }}  </p>
+                            @endif
                         </div>
                         <div class="flex justify-center pt-12">
                             <button type="submit"
