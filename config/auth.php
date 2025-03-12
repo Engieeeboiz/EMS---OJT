@@ -116,7 +116,7 @@ return [
     
     'admin' => [
         'ems_username' => 'administrator',
-        'ems_password' => env('ADMIN_PASSWORD', '2025admin'),
+        'ems_password' => env('ADMIN_PASSWORD', 'admin12345'),
     ],
 
 
