@@ -78,19 +78,19 @@
                 <form action="" method="" class="space-y-2">
                     <div class="h-max w-full flex flex-row space-x-4 mt-4">
                         <div class="h-max w-full flex flex-col">
-                            <label for=""> Last Name </label>
+                            <label for="" class="text-md font-bold"> Last Name </label>
                             <input type="text"
                             placeholder="Last Name"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
                         <div class="h-max w-full flex flex-col">
-                            <label for=""> Given Name </label>
+                            <label for="" class="text-md font-bold"> Given Name </label>
                             <input type="text"
                             placeholder="Given Name"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
                         <div class="h-max w-full flex flex-col">
-                            <label for=""> Middle Name </label>
+                            <label for="" class="text-md font-bold"> Middle Name </label>
                             <input type="text"
                             placeholder="Middle Name"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
