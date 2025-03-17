@@ -71,15 +71,22 @@
         <div id="register_employee_modal"
         class="hidden absolute top-0 left-0 h-screen w-screen justify-items-center pt-28 backdrop-filter backdrop-blur-sm">
             <div id="add_employee_modal_content"
-            class="h-4/5 w-2/5 bg-[#0a9c84] rounded-xl border border-[1px] border-black px-8 py-8">
-                <div class="h-max w-full">
+            class="h-5/5 w-2/5 bg-[#0a9c84] rounded-xl border border-[1px] border-black px-8 py-8 relative">
+
+            <form action="{{ route('employee.add')}}" method="POST" class="space-y-2">
+            @csrf
+                <div class="h-max w-full flex flex-row content-center">
                     <p class="text-3xl font-bold"> Add Employee </p>
+                    <input type="text"
+                    class="h-8 w-28 border-[1] border-black rounded-lg absolute right-8"
+                    placeholder="ID No.">
                 </div>
-                <form action="" method="" class="space-y-2">
                     <div class="h-max w-full flex flex-row space-x-4 mt-4">
                         <div class="h-max w-full flex flex-col">
                             <label for="" class="text-md font-bold"> Last Name </label>
                             <input type="text"
+                            name="employee_last_name"
+                            id="employee_last_name"
                             placeholder="Last Name"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
@@ -87,48 +94,58 @@
                             <label for="" class="text-md font-bold"> Given Name </label>
                             <input type="text"
                             placeholder="Given Name"
+                            name="employee_given_name"
+                            id="employee_given_name"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
                         <div class="h-max w-full flex flex-col">
                             <label for="" class="text-md font-bold"> Middle Name </label>
                             <input type="text"
-                            placeholder="Middle Name"
+                            name="employee_middle_name"
+                            id="employee_middle_name"
+                            placeholder="Middle Name (Optional)"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
                     </div>
                     <div class="h-max w-full flex flex-row space-x-4">
                         <div class="h-max w-1/5 flex flex-col">
-                            <label for=""> Gender </label>
+                            <label for="" class="text-md font-bold"> Gender </label>
                             <select 
-                                name=""
-                                id=""
+                                name="employee_gender"
+                                id="employee_gender"
                                 class="h-10 w-32 rounded-lg border-[1px] border-black">
-                                <option value="0"> Gender </option>
+                                <option value="0" class="text-md font-bold"> Gender </option>
                             </select>
                         </div>
                         <div class="h-max w-1/5 flex flex-col">
-                            <label for=""> Age </label>
+                            <label for="" class="text-md font-bold"> Age </label>
                             <input type="text"
+                            maxlength="2"
                             placeholder="Age"
+                            name="employee_age"
+                            id="employee_age"
                             class="h-10 w-full rounded-lg border-[1px] border-black">
                         </div>
                         <div class="h-max w-full flex flex-col">
-                            <label for=""> Birthday </label>
+                            <label for="" class="text-md font-bold"> Birthday </label>
                             <div class="flex flex-row space-x-2">
-                                <select name="" 
-                                id=""
+                                <select
+                                name="employee_dd" 
+                                id="employee_dd"
                                 class="h-10 w-2/6 rounded-lg border-[1px] border-black">
                                     <option value="0"> DD </option>
                                 </select>
 
-                                <select name="" 
-                                id=""
+                                <select
+                                name="employee_mm" 
+                                id="employee_mm"
                                 class="h-10 w-2/6 rounded-lg border-[1px] border-black">
-                                    <option value="0"> MM</option>
+                                    <option value="0"> MM </option>
                                 </select>
 
-                                <select name="" 
-                                id=""
+                                <select
+                                name="employee_yyyy" 
+                                id="employee_yyyy"
                                 class="h-10 w-2/6 rounded-lg border-[1px] border-black">
                                     <option value="0"> YYYY </option>
                                 </select>
@@ -136,32 +153,48 @@
                         </div>
                     </div>
                     <div class="h-max w-full flex flex-col">
-                        <label for=""> Company </label>
+                        <label for="" class="text-md font-bold"> Address </label>
+                        <input type="text"
+                        placeholder="Address"
+                        name="employee_address"
+                        id="employee_company"
+                        class="h-10 w-full rounded-lg bordr-[1px] border-black">
+                    </div>
+                    <div class="h-max w-full flex flex-col">
+                        <label for="" class="text-md font-bold"> Company </label>
                         <input type="text"
                         placeholder="Company"
+                        name="employee_company"
+                        id="employee_company"
                         class="h-10 w-full rounded-lg bordr-[1px] border-black">
                     </div>
                     <div class="h-max w-full flex flex-col">
-                        <label for=""> Position </label>
+                        <label for="" class="text-md font-bold"> Position </label>
                         <input type="text"
                         placeholder="Position"
+                        name="employee_position"
+                        id="employee_position"
                         class="h-10 w-full rounded-lg bordr-[1px] border-black">
                     </div>
                     <div class="h-max w-full flex flex-col">
-                        <label for=""> Contact Person </label>
+                        <label for="" class="text-md font-bold"> Contact Person </label>
                         <input type="text"
                         placeholder="Contact Person"
+                        name="employee_contact_person"
+                        id="employee_contact_person"
                         class="h-10 w-full rounded-lg bordr-[1px] border-black">
                     </div>
                     <div class="h-max w-full flex flex-col">
-                        <label for=""> Contact Number </label>
+                        <label for="" class="text-md font-bold"> Contact Number </label>
                         <input type="text"
                         placeholder="Contact Number"
+                        name="employee_contact_number"
+                        id="employee_contact_number"
                         class="h-10 w-full rounded-lg bordr-[1px] border-black">
                     </div>
                     <div class="h-max w-full pt-8 justify-center flex flex-row space-x-4">
                         <button type="submit"
-                        id="add_employee_register"
+                        id="next_employee_register"
                         class="rounded-full bg-green-400 h-[32px] w-[100px] font-bold text-sm border-[1px] border-black hover:text-[#F2E7D5]">
                             Add
                         </button>
@@ -174,4 +207,5 @@
                 </form>
             </div>
         </div>
+        
     @endsection

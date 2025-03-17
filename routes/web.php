@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ems_auth_controller;
 use App\Http\Controllers\ems_AJAX_controller;
+use App\Http\Controllers\add_employee_controller;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +30,10 @@ Route::get('/Dashboard',
 [ems_AJAX_controller::class, 'dashboard_request']
 )->name('ems_dashboard');
 
+// Employee Routes
+Route::post('/add-employee',
+    [add_employee_controller::class, 'add_employee']
+)->name('employee.add');
 
 // Authentication Routes
 Route::post('/sign-in',
