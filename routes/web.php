@@ -9,6 +9,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Authentication Routes
+Route::post('/sign-in',
+    [ems_auth_controller::class, 'sign_in']
+)->name('signin.auth');
+
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
@@ -35,10 +40,13 @@ Route::post('/add-employee',
     [add_employee_controller::class, 'add_employee']
 )->name('employee.add');
 
-// Authentication Routes
-Route::post('/sign-in',
-    [ems_auth_controller::class, 'sign_in']
-)->name('signin.auth');
+Route::get('/ems_employees', 
+    [add_employee_controller::class, 'employee_fetch_data']
+)->name('ems_employees');
+
+Route::get('/ems_employee/{emp_ID}', 
+[add_employee_controller::class, 'employee_profile_data'])
+->name('ems_employee.profile');
 
 Route::middleware([
     'auth:sanctum', 
