@@ -9,8 +9,8 @@
                 <form action="" method="" class="flex flex-col w-full items-center">
                     <label for="" class="text-center text-3xl font-bold text-[#0a9c84] mb-4"> Efficient Manpower Services </label>
                     <input type="text"
-                    name="hp_search"
-                    id="hp_search"
+                    name="employee_search"
+                    id="employee_search"
                     class="w-1/2 h-[40px] border-[1px] border-black rounded-full px-4"
                     placeholder="Search for a job">
                 </form>
@@ -33,7 +33,7 @@
                     <tbody>
                         @foreach ($add_employees as $add_employee) 
                             <tr onclick="window.location='/ems_employee/{{ $add_employee->emp_ID }}';"
-                            class="hover:cursor-pointer hover:text-slate-100 hover:bg-[#0a9c84] font-bold border-b-[1px] border-black">
+                            class="h-12 hover:cursor-pointer hover:text-slate-100 hover:bg-[#0a9c84] font-bold border-b-[1px] border-black">
                                 <td class="text-center font-bold"> {{ $add_employee->emp_ID }} </td>
                                 <td class="text-center"> {{ $add_employee->emp_name }} </td>
                                 <td class="text-center"> {{ $add_employee->emp_company }} </td>
@@ -184,11 +184,12 @@
                         id="employee_company"
                         class="h-10 w-full rounded-lg border-[1px] border-black @error('employee_company') border-[2px] border-red-500 @enderror">
                             <option value="" selected disabled> Company </option>
-                            <option value="Oakwave Corporation" class="text-md"> Oakwave Corporation </option>
+                            <option value="Almanza Metropolis Condominium" class="text-md"> Almanza Metropolis Condominiumn </option>
                             <option value="Cavite East Asia Medical Center" class="text-md"> Cavite East Asia Medical Center </option>
+                            <option value="Bionic Logistics Incoreperated" class="text-md"> Bionic Logistics Incoreperated </option>
                             <option value="Chin Su Philippines Company Incorporated" class="text-md"> Chin Su Philippines Company Incorporated </option>
-                            <option value="BIONIC" class="text-md"> BIONIC </option>
-                            <option value="iCare" class="text-md"> iCare </option>
+                            <option value="I-Care" class="text-md"> I-Care </option>
+                            <option value="Oakwave Corporation" class="text-md"> Oakwave Corporation </option> 
                         </select>
                     </div>
                     <div class="h-max w-full flex flex-col">
@@ -244,6 +245,30 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+
+                document.getElementById('employee_search').addEventListener('input', function(){
+                    let search = this.value.toLowerCase();
+                    let rows = document.querySelectorAll('tbody tr');
+
+                    rows.forEach(row => {
+                        let columns = row.querySelectorAll('td');
+                        let found = false;
+
+                        columns.forEach(column => {
+                            let text = column.innerText.toLowerCase();
+                            if (text.includes(search)) {
+                                found = true;
+                            }
+                        });
+
+                        if (found) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+
                 document.getElementById('employee_age').addEventListener('input', function() {
                     let age = parseInt(this.value);
                     if (isNaN(age) || age <= 0) return;

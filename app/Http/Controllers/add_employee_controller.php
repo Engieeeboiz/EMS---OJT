@@ -22,7 +22,7 @@ class add_employee_controller extends Controller
             'employee_gender' => 'required|string|not_in:""',
             'employee_age' => 'required|integer|min:18|max:35',
             'employee_birthday' => 'required|date',
-            'employee_address' => 'required|string|max:255',
+            'employee_address' => 'required|string|unique|max:255',
             'employee_contact_number' => [
                 'required',
                 'string',
@@ -38,6 +38,7 @@ class add_employee_controller extends Controller
                 'string',
                 'min:11',
                 'max:11',
+                'unique',
                 'regex:/^09[0-9]{9}$/'
             ],
         ], [
@@ -50,11 +51,13 @@ class add_employee_controller extends Controller
             'employee_address.required' => 'Please provide address',
             'employee_contact_number.required' => 'Please provide contact number',
             'employee_contact_number.regex' => 'Invalid contact number, must be starting with \'09\'',
+            'employee_contact_number.unique' => 'Contact number already exists',
             'employee_company.required' => 'Please provide company',
             'employee_position.required' => 'Please provide position',
             'employee_contact_person.required' => 'Please provide contact person',
             'employee_contact_person_number.required' => 'Please provide contact number',
             'employee_contact_person_number.regex' => 'Invalid contact number, must be starting with \'09\'',
+            'employee_contact_person_number.unique' => 'Contact number already exists',
         ]);
 
         $name_cased = Str::title($validated_data['employee_last_name'] . ', ' . $validated_data['employee_first_name'] . ' ' . $validated_data['employee_middle_name']);
