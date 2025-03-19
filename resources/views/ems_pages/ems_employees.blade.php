@@ -15,8 +15,8 @@
                     placeholder="Search for a job">
                 </form>
             </div>
-            <div class="h-max w-screen justify-items-center">
-                <table class="table-fixed w-[90%] border-seprate">
+            <div class="h-max w-screen justify-items-center overflow-y-scroll px-[5%]">
+                <table class="table-fixed h-max w-full">
                     <thead class="border-seprate border border-[black] duration-[1s] bg-[#0a9c84] text-[#F2E7D5] font-bold h-full w-full">
                         <tr>
                             <th class="w-max"> ID         </th>
@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($add_employees as $add_employee) 
+                        @foreach ($add_employees->take(7) as $add_employee) 
                             <tr onclick="window.location='/ems_employee/{{ $add_employee->emp_ID }}';"
                             class="h-12 hover:cursor-pointer hover:text-slate-100 hover:bg-[#0a9c84] font-bold border-b-[1px] border-black">
                                 <td class="text-center font-bold"> {{ $add_employee->emp_ID }} </td>
@@ -89,12 +89,12 @@
                 <div class="h-max w-full flex flex-row content-center">
                     <p class="text-3xl font-bold"> Add Employee </p>
                     <div class="absolute right-8">
-                    <label for="" class="text-md font-bold me-2"> ID: </label>
-                    <input type="text"
-                    value="{{ old('employee_id') }} "
-                    name="employee_id"
-                    class="h-8 w-28 border-[1] border-black rounded-lg  @error('employee_last_name') border-[2px] border-red-500 @enderror"
-                    placeholder="ID No.">
+                        <label for="" class="text-md font-bold me-2"> ID: </label>
+                        <input type="text"
+                        value="{{ old('employee_id') }} "
+                        name="employee_id"
+                        class="h-8 w-28 border-[1] border-black rounded-lg  @error('employee_last_name') border-[2px] border-red-500 @enderror"
+                        placeholder="ID No.">
                     </div>
                 </div>
                     <div class="h-max w-full flex flex-row space-x-4 mt-4">
@@ -135,6 +135,9 @@
                                 id="employee_gender"
                                 class="h-10 w-full rounded-lg border-[1px] border-black @error('employee_gender') border-[2px] border-red-500 @enderror">
                                 <option value="" class="text-md" selected disabled> Gender </option>
+                                @error('employee_gender') 
+                                    <option> {{old('employee_gender')}} </option>
+                                @enderror
                                 <option value="Female" class="text-md"> Female </option>
                                 <option value="Male" class="text-md"> Male </option>
                                 <option value="Other" class="text-md"> Other </option>
@@ -184,8 +187,11 @@
                         id="employee_company"
                         class="h-10 w-full rounded-lg border-[1px] border-black @error('employee_company') border-[2px] border-red-500 @enderror">
                             <option value="" selected disabled> Company </option>
+                            @error('employee_company') 
+                                <option> {{old('employee_company')}} </option>  
+                            @enderror
                             <option value="Almanza Metropolis Condominium" class="text-md"> Almanza Metropolis Condominiumn </option>
-                            <option value="Cavite East Asia Medical Center" class="text-md"> Cavite East Asia Medical Center </option>
+                            <option value="Cavite East Asia Medical Center (CEAMC)" class="text-md"> Cavite East Asia Medical Center (CEAMC) </option>
                             <option value="Bionic Logistics Incoreperated" class="text-md"> Bionic Logistics Incoreperated </option>
                             <option value="Chin Su Philippines Company Incorporated" class="text-md"> Chin Su Philippines Company Incorporated </option>
                             <option value="I-Care" class="text-md"> I-Care </option>
@@ -246,28 +252,39 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
 
-                document.getElementById('employee_search').addEventListener('input', function(){
-                    let search = this.value.toLowerCase();
-                    let rows = document.querySelectorAll('tbody tr');
+                function debounce(func, delay) {
+                    let timeout;
+                    return function () {
+                        clearTimeout(timeout);
+                        timeout = setTimeout(() => func.apply(this, arguments), delay);
+                    };
+                }
 
-                    rows.forEach(row => {
-                        let columns = row.querySelectorAll('td');
-                        let found = false;
+                document.getElementById("employee_search").addEventListener("keyup", debounce(function () {
+                    let query = this.value;
 
-                        columns.forEach(column => {
-                            let text = column.innerText.toLowerCase();
-                            if (text.includes(search)) {
-                                found = true;
-                            }
-                        });
+                    fetch(`/search-employees?q=${query}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            let tbody = document.querySelector("tbody");
+                            tbody.innerHTML = data.map(employee =>
+                                `<tr onclick="window.location='/ems_employee/${employee.emp_ID}'"
+                                    class="h-12 hover:cursor-pointer hover:text-slate-100 hover:bg-[#0a9c84] font-bold border-b-[1px] border-black">
+                                    <td class="text-center font-bold">${employee.emp_ID}</td>
+                                    <td class="text-center">${employee.emp_name}</td>
+                                    <td class="text-center">${employee.emp_company}</td>
+                                    <td class="text-center">${employee.emp_position}</td>
+                                    <td class="text-center">${employee.emp_sss}</td>
+                                    <td class="text-center">${employee.emp_hmdf}</td>
+                                    <td class="text-center">${employee.emp_philhealth}</td>
+                                    <td class="text-center">${employee.emp_tin}</td>
+                                    <td class="text-center">${employee.emp_status}</td>
+                                </tr>`
+                            ).join("");
+                        })
+                        .catch(error => console.error("Error fetching employees:", error));
+                }, 300)); // 300ms debounce delay
 
-                        if (found) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    });
-                });
 
                 document.getElementById('employee_age').addEventListener('input', function() {
                     let age = parseInt(this.value);
@@ -279,29 +296,18 @@
                     document.getElementById('employee_birthday').value = birthdate.toISOString().split('T')[0];
                 });
 
-                document.getElementById('employee_contact_number').addEventListener('focus', function() {
+                document.getElementById('employee_contact_number').addEventListener('click', function() {
                     if (this.value.includes('Contact Number')) {
                         this.value = '';
                     }
                 })
 
-                    document.getElementById('employee_contact_number').addEventListener('blur', function () {
-                        if (this.value.trim() === '') {
-                            this.value = 'Contact Number'; // Restore the value when clicked outside
-                        }
-                    });
-
-                document.getElementById('employee_contact_person_number').addEventListener('focus', function() {
+                document.getElementById('employee_contact_person_number').addEventListener('click', function() {
                     if (this.value.includes('Contact Person Number')) {
                         this.value = '';
                     }
                 })
 
-                    document.getElementById('employee_contact_person_number').addEventListener('blur', function () {
-                        if(this.value.trim() === '') {
-                            this.value = 'Contact Person Number'; // Restore the value when clicked outside
-                        }
-                    })
             });
         </script>
         

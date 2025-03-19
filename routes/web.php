@@ -48,6 +48,15 @@ Route::get('/ems_employee/{emp_ID}',
 [add_employee_controller::class, 'employee_profile_data'])
 ->name('ems_employee.profile');
 
+Route::get('/search-employees',
+    [add_employee_controller::class, 'search_employees']
+);
+
+// Employee Profile Routes
+Route::get('/ems_employee/{id}/edit',
+    [add_employee_controller::class, 'edit_employee']
+)->name('update_employee');
+
 Route::middleware([
     'auth:sanctum', 
     config('jetstream.auth_session'),

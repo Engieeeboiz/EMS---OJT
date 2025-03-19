@@ -22,9 +22,10 @@ class add_employee_controller extends Controller
             'employee_gender' => 'required|string|not_in:""',
             'employee_age' => 'required|integer|min:18|max:35',
             'employee_birthday' => 'required|date',
-            'employee_address' => 'required|string|unique|max:255',
+            'employee_address' => 'required|string|max:255',
             'employee_contact_number' => [
                 'required',
+                'unique:add_employee_table,emp_contact_number',
                 'string',
                 'min:11',
                 'max:11',
@@ -38,8 +39,8 @@ class add_employee_controller extends Controller
                 'string',
                 'min:11',
                 'max:11',
-                'unique',
-                'regex:/^09[0-9]{9}$/'
+                'unique:add_employee_table,emp_contact_p_number',
+                'regex:/^09[0-9]{9}$/',
             ],
         ], [
             'employee_id.required' => 'ID',
@@ -91,6 +92,29 @@ class add_employee_controller extends Controller
     }
 
     public function employee_profile_data($emp_ID) {
+        $add_employee = add_employee_table::find($emp_ID);
+    
+        if (!$add_employee) {
+            abort(404); // Handle not found
+        }
+    
+        return view('ems_pages.ems_employee_profile', compact('add_employee'));
+    }
+
+    public function search_employees(Request $request)
+    {
+        $query = $request->q;
+
+        $employees = add_employee_table::where('emp_name', 'LIKE', "%{$query}%")
+                            ->orWhere('emp_company', 'LIKE', "%{$query}%")
+                            ->orWhere('emp_position', 'LIKE', "%{$query}%")
+                            ->limit(7)
+                            ->get();
+
+        return response()->json($employees);    
+    }
+
+    public function edit_employee($emp_ID) {
         $add_employee = add_employee_table::find($emp_ID);
     
         if (!$add_employee) {
